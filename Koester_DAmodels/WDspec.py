@@ -1,9 +1,11 @@
-import numpy as np
 import glob
 import os
-import scipy.ndimage.filters as filters
-import copy
 import pkg_resources
+import copy
+import numpy as np
+import scipy.ndimage.filters as filters
+import extinction
+
 
 
 # load a spectrum
@@ -163,10 +165,11 @@ class WDmodels:
         input:
             T    : float, temperature of the WD in K
             logg : float, surface gravity in log[cgs]
-            K    : float, RV shift if km/s
-            Fnu  : bool, convert to Fnu 
+            RV   : float, RV shift in km/s 
             R    : float, radius in solar units, rescales the spectrum
             dist : float, distance in pc, rescales the spectrum
+            EBV  : float, extinction in B-V 
+            Fnu  : bool, convert to Fnu
 
         output:
             s    : 1D-array, the flux in 4pi*Eddington flux in erg/cm2/s/A
@@ -210,10 +213,10 @@ class WDmodels:
             s /= 4*np.pi*(dist*pc)**2
 
         # extinction
-        #if EBV is not None:
-        #    A_V = EBV*3.1
-        #    ext = extinction.fitzpatrick99(wl, A_V, 3.1) # wavelength in AA
-        #    s *= 10**(-0.4 * ext)
+        if EBV is not None:
+            A_V = EBV*3.1
+            ext = extinction.fitzpatrick99(wl, A_V, 3.1) # wavelength in AA
+            s *= 10**(-0.4 * ext)
 
         return np.c_[wl,s]
 
