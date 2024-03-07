@@ -93,7 +93,7 @@ class WDmodels:
                       These should be provided with the install
             dw      : float, wavelength step. Use None to keep the orginal grid
             smooth  : float, Gaussian sigma for convolution kernel. Check your 
-                      instrument for what this value should be 
+                      spectragraph+grating for what this value should be 
                       (be carefull to convert FWHM to sigma)
             wmin    : float, the mimimum wavelength for the model
             wmax    : float, the maximum wavelength for the model
